@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import camera from '../../assets/camera.svg';
 import './styles.css';
 
 export default function New() {
+  const [thumbnail, setThumbnail] = useState(null);
   const [company, setCompany] = useState('');
   const [techs, setTechs] = useState('');
   const [price, setPrice] = useState('');
+
+  // Toda vez que a variável thumbnail atualizar estado, quero visualizar uma preview
+  // useMemo fica observando o valor de uma variável
+  // Quando é alterada, gera um novo valor para uma variável
+  // URL.createObjectURL cria uma url para uma variável temporária, não foi feito upload
+  const preview = useMemo(() => {
+    return thumbnail ? URL.createObjectURL(thumbnail) : null
+  }, [thumbnail]);
 
   function handleSubmit() {
 
@@ -14,8 +23,12 @@ export default function New() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label id="thumbnail">
-        <input type="file" />
+      <label
+        id="thumbnail"
+        style={{ backgroundImage: `url(${preview})` }}
+        className={thumbnail ? 'has-thumbnail' : ''}
+      >
+        <input type="file" onChange={(event) => setThumbnail(event.target.files[0])} />
         <img src={camera} alt="Select img" />
       </label>
 
