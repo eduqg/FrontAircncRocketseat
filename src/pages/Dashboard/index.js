@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
 
+import './styles.css';
+
 export default function Dashboard() {
   const [spots, setSpots] = useState([]);
   // Ao iniciar, executar o que está em useEffect.
@@ -25,9 +27,9 @@ export default function Dashboard() {
           spots.map((spot) => (
             <li key={spot._id}>
               {/* Com header consigo deixar imagens do mesmo tamanho */}
-              <header />
+              <header style={{backgroundImage: `url(${spot.thumbnail_url})`}} />
               <strong>{spot.company}</strong>
-              <span>{spot.price}</span>
+              <span>{spot.price ? `R$${spot.price}/dia` : `GRÁTIS`}</span>
             </li>
           ))
         }
