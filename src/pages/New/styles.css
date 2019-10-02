@@ -1,0 +1,16 @@
+/* Três últimos itens = para ícone da câmera ficar no centro */
+label#thumbnail {
+  margin-bottom: 20px;
+  border: 1px dashed #ddd;
+  background-size: cover;
+  cursor: pointer;
+  height: 160px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label#thumbnail input {
+  display: none;
+}
