@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import './styles.css';
@@ -27,7 +28,7 @@ export default function Dashboard() {
           spots.map((spot) => (
             <li key={spot._id}>
               {/* Com header consigo deixar imagens do mesmo tamanho */}
-              <header style={{backgroundImage: `url(${spot.thumbnail_url})`}} />
+              <header style={{ backgroundImage: `url(${spot.thumbnail_url})` }} />
               <strong>{spot.company}</strong>
               <span>{spot.price ? `R$${spot.price}/dia` : `GRÁTIS`}</span>
             </li>
@@ -35,6 +36,9 @@ export default function Dashboard() {
         }
 
       </ul>
+      <Link to="/new">
+        <button className="btn">Cadastrar novo Spot</button>
+      </Link>
     </>
   );
 }
