@@ -1,0 +1,14 @@
+- npx create-react-app frontaircnc
+Script criação utilizado
+
+-> Emmet abreviation
+Para digitar div.container
+Resultando em <div className="container"></div>
+
+ctrl + shift + p, abrir setting.json, adicionar seguintes linhas 
+  "emmet.syntaxProfiles": {
+      "javascript": "jsx",
+  },
+  "emmet.includeLanguages": {
+      "javascript": "javascriptreact",
+  },
