@@ -12,3 +12,5 @@ ctrl + shift + p, abrir setting.json, adicionar seguintes linhas
   "emmet.includeLanguages": {
       "javascript": "javascriptreact",
   },
+
+-> yarn add socket.io-client

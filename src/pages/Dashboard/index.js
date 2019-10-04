@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import socketio from 'socket.io-client';
 import api from '../../services/api';
 
 import './styles.css';
 
 export default function Dashboard() {
   const [spots, setSpots] = useState([]);
+
+  useEffect(() => {
+    const socket = socketio('http://localhost:3333');
+  }, [])
   // Ao iniciar, executar o que está em useEffect.
   // [] = Variáveis que quando alteradas, executar useEffect. Pode ser por exemplo um filtro
   useEffect(() => {
