@@ -32,12 +32,24 @@ export default function Dashboard() {
           user_id
         }
       });
-    console.log(user_id);
+      console.log(user_id);
 
       setSpots(response.data);
     }
     loadSpots();
   }, []);
+
+  async function handleAccept(id) {
+    await api.post(`/bookings/${id}/approvals`);
+    // Remover request de spot pois foi aprovada
+    setRequests(requests.filter(requests => requests._id =! id))
+  }
+
+  async function handleReject(id) {
+    await api.post(`/booking/${id}/rejections`);
+    // Remover request de spot pois foi aprovada
+    setRequests(requests.filter(requests => requests._id =! id))
+  }
 
   return (
     <>
@@ -47,8 +59,8 @@ export default function Dashboard() {
             <p>
               <strong>{request.user.email}</strong> está solicitando uma reserva em <strong>{request.spot.company} </strong>para a data: <strong>{request.date}</strong>
             </p>
-            <button className="accept">ACEITAR</button>
-            <button className="reject">REJEITAR</button>
+            <button onClick={() => handleAccept(request._id)} className="accept">ACEITAR</button>
+            <button onClick={() => handleReject(request._id)} className="reject">REJEITAR</button>
           </li>
         ))}
       </ul>
