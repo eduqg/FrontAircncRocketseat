@@ -46,7 +46,7 @@ export default function Dashboard() {
   }
 
   async function handleReject(id) {
-    await api.post(`/booking/${id}/rejections`);
+    await api.post(`/bookings/${id}/rejections`);
     // Remover request de spot pois foi aprovada
     setRequests(requests.filter(requests => requests._id =! id))
   }
