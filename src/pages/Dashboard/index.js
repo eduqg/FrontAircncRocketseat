@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import socketio from 'socket.io-client';
 import api from '../../services/api';
@@ -7,18 +7,21 @@ import './styles.css';
 
 export default function Dashboard() {
   const [spots, setSpots] = useState([]);
+  const [requests, setRequests] = useState([]);
+
+  // useMemo = Armazenar valor ate que variável mude
+  // Refazer a conexão com o usuário apenas quando user_id mudar
+  const user_id = localStorage.getItem('user');
+  const socket = useMemo(() => socketio('http://localhost:3333', {
+    query: { user_id }
+  }), [user_id]);
 
   useEffect(() => {
-    const user_id = localStorage.getItem('user');
-    const socket = socketio('http://localhost:3333', {
-      query: { user_id }
-    });
-    console.log(user_id);
     socket.on('booking_request', data => {
-      console.log(data);
+      setRequests([...requests, data])
     });
-    console.log('Fim data');
-  }, []);
+  }, [requests, socket]);
+
   // Ao iniciar, executar o que está em useEffect.
   // [] = Variáveis que quando alteradas, executar useEffect. Pode ser por exemplo um filtro
   useEffect(() => {
@@ -29,6 +32,8 @@ export default function Dashboard() {
           user_id
         }
       });
+    console.log(user_id);
+
       setSpots(response.data);
     }
     loadSpots();
@@ -36,6 +41,17 @@ export default function Dashboard() {
 
   return (
     <>
+      <ul className="notifications">
+        {requests.map(request => (
+          <li key={request._id}>
+            <p>
+              <strong>{request.user.email}</strong> está solicitando uma reserva em <strong>{request.spot.company} </strong>para a data: <strong>{request.date}</strong>
+            </p>
+            <button className="accept">ACEITAR</button>
+            <button className="reject">REJEITAR</button>
+          </li>
+        ))}
+      </ul>
       <ul className="spot-list">
         {
           spots.map((spot) => (
